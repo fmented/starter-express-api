@@ -1,5 +1,8 @@
 import { config } from 'dotenv'
 const dotenv = config()
+
+console.log(process.env);
+
 import express from 'express'
 import cors from "cors"
 import nodemailer from "nodemailer"

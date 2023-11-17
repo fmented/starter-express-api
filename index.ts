@@ -162,7 +162,7 @@ app.get('/stats', ash(async (req, res, next) => {
         await model.$disconnect()
     } catch (e) {
         console.log((e as Error).message)
-        res.send({ ...resError(e), env: process.env });
+        res.send({ ...resError(e) });
     }
 }))
 

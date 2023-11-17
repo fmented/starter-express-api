@@ -118,9 +118,11 @@ app.post('/bundlingpdf', ash(async (request, res, next) => {
 
 
     const body = request.body
+    const pdf = "data:application/pdf;base64," + Buffer.from(body).toString("base64")
+
     try {
 
-        await sendMail({ to, name, as: "e-Ticket dan Merch Receipt", base64string: await bufferToDataUrl("application/pdf", body) })
+        await sendMail({ to, name, as: "e-Ticket dan Merch Receipt", base64string: pdf })
         console.log(`Email sent to ${name} with ${to} address`);
 
         res.send(JSON.stringify({ status: "Success" }))
@@ -139,10 +141,11 @@ app.post('/ticketpdf', ash(async (request, res, next) => {
 
 
     const body = request.body
+    const pdf = "data:application/pdf;base64," + Buffer.from(body).toString("base64")
 
     try {
 
-        await sendMail({ to, name, base64string: await bufferToDataUrl("application/pdf", body) })
+        await sendMail({ to, name, base64string: pdf })
 
         console.log(`Email sent to ${name} with ${to} address`);
         res.send(JSON.stringify({ status: "Success" }))

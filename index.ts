@@ -12,7 +12,13 @@ import { PrismaClient, type Ticket as T, type Merch as M, MerchSize } from '@pri
 import { randomBytes } from 'crypto'
 
 
-const prisma = new PrismaClient({})
+const prisma = new PrismaClient({
+    datasources: {
+        db: {
+            url: process.env.DB_URL
+        }
+    }
+})
 
 
 export function qr() {

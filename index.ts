@@ -13,11 +13,8 @@ import { randomBytes } from 'crypto'
 
 
 const prisma = new PrismaClient({
-    datasources: {
-        db: {
-            url: process.env.DB_URL
-        }
-    }
+    datasourceUrl: process.env.DB_URL
+
 })
 
 

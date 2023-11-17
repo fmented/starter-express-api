@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "npx ts-node index.ts",
     "dev": "npx nodemon dev",
-    "build": "npx tsc",
     "postinstall": "npx prisma generate --no-engine"
   },
   "repository": {
@@ -31,7 +30,8 @@
     "nodemailer": "^6.9.7",
     "pdfkit": "^0.14.0",
     "qrcode-svg": "^1.1.0",
-    "svg-to-pdfkit": "^0.1.8"
+    "svg-to-pdfkit": "^0.1.8",
+    "ts-node": "^10.9.1"
   },
   "devDependencies": {
     "@types/blob-stream": "^0.1.33",

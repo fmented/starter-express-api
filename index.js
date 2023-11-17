@@ -64,7 +64,7 @@ app.post('/bundlingpdf', ash(async (request, res, next) => {
   const body = request.body
   try {
 
-    await sendMail({ to, name }, await bufferToDataUrl("application/pdf", body))
+    await sendMail({ to, name, as: "e-Ticket dan Merch Receipt" }, await bufferToDataUrl("application/pdf", body))
     console.log(`Email sent to ${name} with ${to} address`);
 
     res.send(JSON.stringify({ status: "Success" }))

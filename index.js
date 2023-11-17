@@ -5,10 +5,8 @@ const nodemailer = require("nodemailer")
 const ash = require('express-async-handler')
 var bodyParser = require('body-parser');
 const app = express()
-const fs = require("fs/promises")
-const spawn = require('child_process').spawn;
-const { default: bufferToDataUrl } = require("buffer-to-data-url")
 
+const { default: bufferToDataUrl } = require("buffer-to-data-url")
 
 app.use(cors({
   methods: ["POST"],
@@ -16,9 +14,7 @@ app.use(cors({
 }))
 
 
-// app.use(bodyParser.text({ limit: "2000kb" }));
-app.use(bodyParser.raw({ limit: '2000kb', type: 'application/octet-stream' }));
-// app.use(bodyParser.json({ limit: "2000kb" }))
+app.use(bodyParser.raw({ limit: '2000kb', type: 'application/pdf' }));
 
 
 const email = process.env.EMAIL_USER
@@ -34,7 +30,7 @@ const transport = nodemailer.createTransport({
 })
 
 
-async function sendMail({ to, name, as = "e-Ticket" }) {
+async function sendMail({ to, name, as = "e-Ticket" }, pdf) {
 
   return await transport.sendMail({
     from: "Loudeast Media",
@@ -50,7 +46,7 @@ async function sendMail({ to, name, as = "e-Ticket" }) {
     subject: `${as} ${process.env.EVENT_NAME}`,
     attachments: [
       {
-        path: "test.pdf",
+        href: pdf,
         filename: `${as}.pdf`
       }
     ]
@@ -58,6 +54,7 @@ async function sendMail({ to, name, as = "e-Ticket" }) {
 
   })
 }
+
 
 app.post('/bundlingpdf', ash(async (request, res, next) => {
   const to = request.headers["to"]
@@ -67,9 +64,8 @@ app.post('/bundlingpdf', ash(async (request, res, next) => {
   const body = request.body
   try {
 
-    await fs.writeFile("test.pdf", body)
-    await sendMail({ to, name, as: "e-Ticket dan Merch Receipt" })
-    await fs.unlink("test.pdf")
+    await sendMail({ to, name }, await bufferToDataUrl("application/pdf", body))
+    console.log(`Email sent to ${name} with ${to} address`);
 
     res.send(JSON.stringify({ status: "Success" }))
 
@@ -90,10 +86,9 @@ app.post('/ticketpdf', ash(async (request, res, next) => {
 
   try {
 
-    await fs.writeFile("test.pdf", body)
-    await sendMail({ to, name })
-    await fs.unlink("test.pdf")
+    await sendMail({ to, name }, await bufferToDataUrl("application/pdf", body))
 
+    console.log(`Email sent to ${name} with ${to} address`);
     res.send(JSON.stringify({ status: "Success" }))
 
   } catch (error) {

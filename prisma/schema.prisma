@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+enum TicketClass {
+  REGULAR
+  PRESALE
+  BUNDLING
+  OTS
+}
+
+model Ticket {
+  qr        String    @id @unique
+  checkInAt DateTime?
+  name      String
+  id        String    @unique @default(uuid())
+  createdAt DateTime  @default(now())
+  email     String
+  Merch     Merch?
+
+  @@index([qr, id])
+}
+
+enum MerchSize {
+  XS
+  S
+  M
+  L
+  XL
+  XXL
+  XXXL
+}
+
+model Merch {
+  qr        String    @id @unique
+  size      MerchSize
+  name      String
+  claimedAt DateTime?
+  createdAt DateTime  @default(now())
+  id        String    @unique @default(uuid())
+  ticketId  String    @unique
+  ticket    Ticket    @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  @@index([qr, id, ticketId])
+}

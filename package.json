@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node index.ts",
+    "start": "node index.js",
     "dev": "npx nodemon dev",
+    "build": "tsc",
     "postinstall": "npx prisma generate --no-engine"
   },
   "repository": {

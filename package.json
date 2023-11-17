@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npx ts-node index.ts",
+    "start": "node index.js",
     "dev": "npx nodemon dev",
+    "build": "npx tsc",
     "postinstall": "npx prisma generate --no-engine"
   },
   "repository": {
@@ -43,5 +44,6 @@
     "nodemon": "^3.0.1",
     "prisma": "^5.5.2",
     "typescript": "^5.2.2"
-  }
+  },
+  "type": "module"
 }

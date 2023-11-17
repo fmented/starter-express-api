@@ -1,8 +1,6 @@
 import { config } from 'dotenv'
 const dotenv = config()
 
-console.log(process.env);
-
 import express from 'express'
 import cors from "cors"
 import nodemailer from "nodemailer"
@@ -83,10 +81,7 @@ export async function sendMail({ to, name, base64string, as = "e-Ticket" }: { to
 }
 
 
-app.use(cors({
-    methods: ["POST"],
-    preflightContinue: true
-}))
+app.use(cors())
 
 
 app.use(bodyParser.raw({ limit: '2000kb', type: 'application/pdf' }));
